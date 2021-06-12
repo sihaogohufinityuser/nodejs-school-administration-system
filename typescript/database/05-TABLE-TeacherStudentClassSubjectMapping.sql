@@ -7,5 +7,14 @@ CREATE TABLE IF NOT EXISTS TeacherStudentClassSubjectMapping (
     subjectId INT(10) NOT NULL,
     active BOOLEAN NOT NULL DEFAULT TRUE,
     dateCreated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    dateModified TIMESTAMP NOT NULL
+    dateModified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(teacherId,studentId,classId,subjectId),
+    FOREIGN KEY(teacherId)
+        REFERENCES Teacher(id),
+    FOREIGN KEY(studentId)
+        REFERENCES Student(id),
+    FOREIGN KEY(classId)
+        REFERENCES Class(id),
+    FOREIGN KEY(subjectId)
+        REFERENCES Subject(id)
 );
