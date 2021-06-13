@@ -1,4 +1,4 @@
 typescript/node_modules/
+./*.json
 *.csv
-*.json
 *.pdf
