@@ -1,0 +1,22 @@
+{
+  "files.trimTrailingWhitespace": true,
+  "editor.tabSize": 2,
+  "files.insertFinalNewline": true,
+  "editor.insertSpaces": true,
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default"
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "[local] school-administration-system",
+      "group": "school-administration-system",
+      "database": "school-administration-system",
+      "username": "root",
+      "password": "password"
+    }
+  ],
+}
