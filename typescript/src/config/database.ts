@@ -28,6 +28,9 @@ const sequelize = new Sequelize(DB_SCHEMA, DB_USER, DB_PW, {
   timezone: '+08:00',
   logging: (msg) => {
     LOG.log(DB_LOG_LEVEL, msg);
+  },
+  define: {
+    freezeTableName: true
   }
 });
 
