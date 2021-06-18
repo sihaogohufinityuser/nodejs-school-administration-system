@@ -438,6 +438,9 @@ export const retrieveStudentsByClassCode = async (
       ],
     });
 
+  // For Troubleshooting only
+  // LOG.info(JSON.stringify(localClassStudentMappingData));
+
   // Merge External Students and Local Students for sorting
   const mergedStudents: Student[] = [];
   for (const externalStudent of externalClassStudentMappingData.students) {
@@ -470,9 +473,6 @@ export const retrieveStudentsByClassCode = async (
   studentListingResponse.count =
     externalClassStudentMappingData.count + localClassStudentMappingData.count;
   studentListingResponse.students = searchedStudents;
-
-  // For Troubleshooting only
-  // LOG.info(JSON.stringify(localClassStudentMappingData));
 
   return studentListingResponse;
 };
