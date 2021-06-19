@@ -537,7 +537,7 @@ export const retrieveWorkloadReport =
         [
           Sequelize.fn(
             'COUNT',
-            Sequelize.literal('DISTINCT teacherId, subjectId')
+            Sequelize.fn('DISTINCT', Sequelize.col('classId'))
           ),
           'numberOfClasses',
         ],
@@ -545,11 +545,11 @@ export const retrieveWorkloadReport =
       include: [
         {
           model: Teacher,
-          attributes: ['id', 'name'],
+          attributes: ['name'],
         },
         {
           model: Subject,
-          attributes: ['id', 'code', 'name'],
+          attributes: ['code', 'name'],
         },
       ],
       group: ['teacherId', 'subjectId'],
