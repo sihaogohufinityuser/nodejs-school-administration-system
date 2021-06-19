@@ -3,15 +3,16 @@ import csv from 'csv-parser';
 import axios from 'axios';
 import { CsvItem } from 'CsvItem';
 import Logger from '../config/logger';
-import { Op } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 import Teacher from '../models/Teacher';
 import Student from '../models/Student';
 import Class from '../models/Class';
 import Subject from '../models/Subject';
-import { CsvMappingTable } from '../types/CsvMappingTable';
-import { MappingTable } from '../types/mappingTable';
+import { CsvMappingTable } from 'CsvMappingTable';
+import { MappingTable } from 'MappingTable';
 import TeacherStudentClassSubjectMapping from '../models/TeacherStudentClassSubjectMapping';
-import { StudentListingResponse } from '../types/StudentListingResponse';
+import { StudentListingResponse } from 'StudentListingResponse';
+import { WorkloadReportResponse } from 'WorkloadReportResponse';
 
 const { MAX_STUDENTS_PER_CLASS = 500 } = process.env;
 
@@ -527,3 +528,50 @@ export const updateClassNameByClassCode = async (
     throw new Error('BAD_REQUEST');
   }
 };
+
+export const retrieveWorkloadReport =
+  async (): Promise<StudentListingResponse> => {
+    // Retrieve number of class count group by distinct teacher and subject
+    const workloadReportData = await TeacherStudentClassSubjectMapping.findAll({
+      attributes: [
+        [
+          Sequelize.fn(
+            'COUNT',
+            Sequelize.literal('DISTINCT teacherId, subjectId')
+          ),
+          'numberOfClasses',
+        ],
+      ],
+      include: [
+        {
+          model: Teacher,
+          attributes: ['id', 'name'],
+        },
+        {
+          model: Subject,
+          attributes: ['id', 'code', 'name'],
+        },
+      ],
+      group: ['teacherId', 'subjectId'],
+    });
+
+    // For Troubleshooting only
+    // LOG.info(JSON.stringify(workloadReportData));
+
+    const workloadReportResponse: WorkloadReportResponse = {};
+    for (const workloadReportItem of workloadReportData) {
+      if (!workloadReportResponse[workloadReportItem.Teacher.name]) {
+        workloadReportResponse[workloadReportItem.Teacher.name] = [];
+      }
+      workloadReportResponse[workloadReportItem.Teacher.name].push({
+        subjectCode: workloadReportItem.Subject.code,
+        subjectName: workloadReportItem.Subject.name,
+        numberOfClasses: workloadReportItem.get('numberOfClasses'),
+      });
+
+      // For Troubleshooting only
+      // LOG.info(JSON.stringify(workloadReportItem));
+    }
+
+    return workloadReportResponse;
+  };
