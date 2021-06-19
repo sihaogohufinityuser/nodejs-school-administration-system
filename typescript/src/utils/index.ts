@@ -497,7 +497,7 @@ export const updateClassNameByClassCode = async (
   reqClassName: string
 ): Promise<void> => {
   // For Troubleshooting only
-  // LOG.info(`reqClassCode: ${reqClassCode}, reqOffset: ${reqOffset}, reqLimit: ${reqLimit}`);
+  // LOG.info(`reqClassCode: ${reqClassCode}, reqClassName: ${reqClassName}`);
 
   validateUpdateClassNameRequest(reqClassCode, reqClassName);
 
@@ -509,6 +509,9 @@ export const updateClassNameByClassCode = async (
       },
     },
   });
+
+  // For Troubleshooting only
+  // LOG.info(JSON.stringify(classToUpdate));
 
   if (classToUpdate) {
     LOG.info(`Class found in DB: ${classToUpdate.code}`);

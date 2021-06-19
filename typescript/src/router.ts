@@ -8,7 +8,7 @@ const router = Express.Router();
 
 router.use('/', DataImportController);
 router.use('/', StudentListingController);
-router.use('/', UpdateClassNameController)
+router.use('/', UpdateClassNameController);
 router.use('/', HealthcheckController);
 
 export default router;
