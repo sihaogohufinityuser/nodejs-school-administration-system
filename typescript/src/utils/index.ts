@@ -546,6 +546,11 @@ export const retrieveWorkloadReport =
           'numberOfClasses',
         ],
       ],
+      where: {
+        active: {
+          [Op.eq]: true,
+        },
+      },
       include: [
         {
           model: Teacher,
