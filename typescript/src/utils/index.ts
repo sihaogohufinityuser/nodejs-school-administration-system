@@ -184,6 +184,7 @@ export const updateOrInsertDataObjects = async (
         name: csvTeacher.name,
       });
       await newTeacher.save();
+      idMappingTable.Teacher.set(newTeacher.email, newTeacher.id);
     }
   }
 
@@ -219,6 +220,7 @@ export const updateOrInsertDataObjects = async (
         name: csvStudent.name,
       });
       await newStudent.save();
+      idMappingTable.Student.set(newStudent.email, newStudent.id);
     }
   }
 
@@ -254,6 +256,7 @@ export const updateOrInsertDataObjects = async (
         name: csvClass.name,
       });
       await newClass.save();
+      idMappingTable.Class.set(newClass.code, newClass.id);
     }
   }
 
@@ -289,6 +292,7 @@ export const updateOrInsertDataObjects = async (
         name: csvSubject.name,
       });
       await newSubject.save();
+      idMappingTable.Subject.set(newSubject.code, newSubject.id);
     }
   }
 
