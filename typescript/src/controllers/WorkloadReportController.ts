@@ -1,7 +1,7 @@
 import Express, { RequestHandler } from 'express';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 import Logger from '../config/logger';
-import { retrieveWorkloadReport } from '../utils';
+import { retrieveWorkloadReport } from 'utils/index';
 
 const WorkloadReportController = Express.Router();
 const LOG = new Logger('WorkloadReportController.js');

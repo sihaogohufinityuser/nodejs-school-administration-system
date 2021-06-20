@@ -6,7 +6,7 @@ import {
   convertCsvToJson,
   validateAndPopulateDataObjectsFromJson,
   updateOrInsertDataObjects,
-} from '../utils';
+} from 'utils/index';
 
 const DataImportController = Express.Router();
 const LOG = new Logger('DataImportController.js');

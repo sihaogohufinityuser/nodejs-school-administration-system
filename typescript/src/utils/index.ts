@@ -1,18 +1,18 @@
 import fs from 'fs';
 import csv from 'csv-parser';
 import axios from 'axios';
-import { CsvItem } from 'CsvItem';
+import { CsvItem } from 'types/CsvItem';
 import Logger from '../config/logger';
 import { Op, Sequelize } from 'sequelize';
-import Teacher from '../models/Teacher';
-import Student from '../models/Student';
-import Class from '../models/Class';
-import Subject from '../models/Subject';
-import { CsvMappingTable } from 'CsvMappingTable';
-import { MappingTable } from 'MappingTable';
-import TeacherStudentClassSubjectMapping from '../models/TeacherStudentClassSubjectMapping';
-import { StudentListingResponse } from 'StudentListingResponse';
-import { WorkloadReportResponse } from 'WorkloadReportResponse';
+import Teacher from 'models/Teacher';
+import Student from 'models/Student';
+import Class from 'models/Class';
+import Subject from 'models/Subject';
+import { CsvMappingTable } from 'types/CsvMappingTable';
+import { MappingTable } from 'types/MappingTable';
+import TeacherStudentClassSubjectMapping from 'models/TeacherStudentClassSubjectMapping';
+import { StudentListingResponse } from 'types/StudentListingResponse';
+import { WorkloadReportResponse } from 'types/WorkloadReportResponse';
 
 const { MAX_STUDENTS_PER_CLASS = 500 } = process.env;
 
