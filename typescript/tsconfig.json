@@ -9,12 +9,20 @@
       "outDir": "build",
       "baseUrl": ".",
       "paths": {
+          "models/*": [
+              "src/models/*",
+          ],
+          "types/*": [
+              "src/types/*",
+          ],
+          "utils/*": [
+              "src/utils/*",
+          ],
+          "services/*": [
+              "src/services/*"
+          ],
           "*": [
               "node_modules/*",
-              "src/models/*",
-              "src/types/*",
-              "src/utils/*",
-              "src/services/*",
           ]
       },
   },
