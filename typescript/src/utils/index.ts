@@ -3,14 +3,11 @@ import csv from 'csv-parser';
 import axios from 'axios';
 import { CsvItem } from 'types/CsvItem';
 import Logger from '../config/logger';
-import { Op, Sequelize } from 'sequelize';
-import Teacher from 'models/Teacher';
+import { Op } from 'sequelize';
 import Student from 'models/Student';
 import Class from 'models/Class';
-import Subject from 'models/Subject';
 import TeacherStudentClassSubjectMapping from 'models/TeacherStudentClassSubjectMapping';
 import { StudentListingResponse } from 'types/StudentListingResponse';
-import { WorkloadReportResponse } from 'types/WorkloadReportResponse';
 
 const { MAX_STUDENTS_PER_CLASS = 500 } = process.env;
 
@@ -166,55 +163,3 @@ export const retrieveStudentsByClassCode = async (
 
   return studentListingResponse;
 };
-
-export const retrieveWorkloadReport =
-  async (): Promise<StudentListingResponse> => {
-    // Retrieve number of class count group by distinct teacher and subject
-    const workloadReportData = await TeacherStudentClassSubjectMapping.findAll({
-      attributes: [
-        [
-          Sequelize.fn(
-            'COUNT',
-            Sequelize.fn('DISTINCT', Sequelize.col('classId'))
-          ),
-          'numberOfClasses',
-        ],
-      ],
-      where: {
-        active: {
-          [Op.eq]: true,
-        },
-      },
-      include: [
-        {
-          model: Teacher,
-          attributes: ['name'],
-        },
-        {
-          model: Subject,
-          attributes: ['code', 'name'],
-        },
-      ],
-      group: ['teacherId', 'subjectId'],
-    });
-
-    // For Troubleshooting only
-    // LOG.info(JSON.stringify(workloadReportData));
-
-    const workloadReportResponse: WorkloadReportResponse = {};
-    for (const workloadReportItem of workloadReportData) {
-      if (!workloadReportResponse[workloadReportItem.Teacher.name]) {
-        workloadReportResponse[workloadReportItem.Teacher.name] = [];
-      }
-      workloadReportResponse[workloadReportItem.Teacher.name].push({
-        subjectCode: workloadReportItem.Subject.code,
-        subjectName: workloadReportItem.Subject.name,
-        numberOfClasses: workloadReportItem.get('numberOfClasses'),
-      });
-
-      // For Troubleshooting only
-      // LOG.info(JSON.stringify(workloadReportItem));
-    }
-
-    return workloadReportResponse;
-  };
