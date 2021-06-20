@@ -2,11 +2,12 @@ import Express, { RequestHandler } from 'express';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 import Logger from '../config/logger';
 import upload from '../config/multer';
+import { convertCsvToJson } from 'utils/index';
 import {
-  convertCsvToJson,
-  validateAndPopulateDataObjectsFromJson,
+  validateDataImport,
+  populateDataObjectsFromJson,
   updateOrInsertDataObjects,
-} from 'utils/index';
+} from 'services/DataImportService';
 
 const DataImportController = Express.Router();
 const LOG = new Logger('DataImportController.js');
@@ -21,8 +22,11 @@ const dataImportHandler: RequestHandler = async (req, res, next) => {
       // For Troubleshooting only
       // LOG.info(JSON.stringify(data, null, 2));
 
+      // Perform Validation on CSV data
+      validateDataImport(data);
+
       // Build maps of Teachers / Students / Classes / Subjects, and array of TeacherStudentClassSubjectMappings before update/insertion into DB
-      const dataObjects = validateAndPopulateDataObjectsFromJson(data);
+      const dataObjects = populateDataObjectsFromJson(data);
 
       // Update/Insertion of Teachers / Students / Classes / Subjects / TSCSMapping into DB
       await updateOrInsertDataObjects(dataObjects);
