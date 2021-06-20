@@ -6,7 +6,7 @@
     "test": "jest",
     "build:ts": "tsc",
     "prestart": "npm run start:services",
-    "start": "ts-node ./src/server.ts",
+    "start": "ts-node -r tsconfig-paths/register ./src/server.ts",
     "prestart:dev": "npm run start:services",
     "start:dev": "nodemon",
     "start:services": "docker-compose up -d",
@@ -43,6 +43,7 @@
     "nodemon": "^2.0.4",
     "ts-jest": "^27.0.3",
     "ts-node": "^8.10.2",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^3.9.7"
   },
   "peerDependencies": {
