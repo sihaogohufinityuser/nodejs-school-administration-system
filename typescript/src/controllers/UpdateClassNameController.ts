@@ -1,7 +1,7 @@
 import Express, { RequestHandler } from 'express';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
+import { validateUpdateClassNameRequest, updateClassNameByClassCode } from 'services/UpdateClassNameService';
 import Logger from '../config/logger';
-import { updateClassNameByClassCode } from '../utils';
 
 const UpdateClassNameController = Express.Router();
 const LOG = new Logger('UpdateClassNameController.js');
@@ -10,7 +10,13 @@ const updateClassNameHandler: RequestHandler = async (req, res, next) => {
   try {
     const reqClassCode = req.params.classCode;
     const reqClassName = req.body.className;
+
+    // Perform Validation on req
+    validateUpdateClassNameRequest(reqClassCode, reqClassName);
+
+    // Process
     await updateClassNameByClassCode(reqClassCode, reqClassName);
+
     return res.sendStatus(StatusCodes.NO_CONTENT);
   } catch (error) {
     LOG.error(error.message);
