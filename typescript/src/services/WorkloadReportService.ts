@@ -2,7 +2,7 @@ import Logger from '../config/logger';
 import Subject from 'models/Subject';
 import Teacher from 'models/Teacher';
 import TeacherStudentClassSubjectMapping from 'models/TeacherStudentClassSubjectMapping';
-import { Op, Sequelize } from 'sequelize/types';
+import { Op, Sequelize } from 'sequelize';
 import { StudentListingResponse } from 'types/StudentListingResponse';
 import { WorkloadReportResponse } from 'types/WorkloadReportResponse';
 
