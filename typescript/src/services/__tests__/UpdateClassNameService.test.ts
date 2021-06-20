@@ -4,10 +4,6 @@ import {
 } from 'services/UpdateClassNameService';
 
 describe('testing UpdateClassNameService', () => {
-  beforeEach(() => {
-    jest.useFakeTimers();
-  });
-
   test('validateUpdateClassNameRequest should return BAD_REQUEST error when either parameters is empty', () => {
     expect(() => {
       validateUpdateClassNameRequest('', 'P1-1');
