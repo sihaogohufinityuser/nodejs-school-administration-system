@@ -2,7 +2,7 @@ import Logger from '../config/logger';
 import { Op } from 'sequelize';
 import Class from 'models/Class';
 
-const LOG = new Logger('util.js');
+const LOG = new Logger('UpdateClassNameService.js');
 
 export const validateUpdateClassNameRequest = (
   reqClassCode: string,
