@@ -13,7 +13,6 @@ const startApplication = async (retryCount: number) => {
     App.listen(PORT, () => {
       LOG.info(`Application started at http://localhost:${PORT}`);
     });
-
   } catch (e) {
     LOG.error(e);
 

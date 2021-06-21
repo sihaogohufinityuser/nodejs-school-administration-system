@@ -1,7 +1,7 @@
 import Express, { RequestHandler } from 'express';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 import Logger from '../config/logger';
-import { retrieveStudentsByClassCode } from 'utils/index';
+import { retrieveStudentsByClassCode } from 'services/StudentListingService';
 
 const StudentListingController = Express.Router();
 const LOG = new Logger('StudentListingController.js');
