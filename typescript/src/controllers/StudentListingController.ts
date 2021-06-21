@@ -1,7 +1,7 @@
 import Express, { RequestHandler } from 'express';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 import Logger from '../config/logger';
-import { retrieveStudentsByClassCode } from 'services/StudentListingService';
+import { validateStudentListingRequest, retrieveStudentsByClassCode } from 'services/StudentListingService';
 
 const StudentListingController = Express.Router();
 const LOG = new Logger('StudentListingController.js');
@@ -11,6 +11,11 @@ const studentListingHandler: RequestHandler = async (req, res, next) => {
     const reqClassCode = req.params.classCode;
     const reqOffset = (req.query.offset as string) || '';
     const reqLimit = (req.query.limit as string) || '';
+
+    // Perform Validation on req
+    validateStudentListingRequest(reqClassCode, reqOffset, reqLimit);
+
+    // Process
     const response = await retrieveStudentsByClassCode(
       reqClassCode,
       reqOffset,

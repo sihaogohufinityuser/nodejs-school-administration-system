@@ -10,7 +10,7 @@ const { MAX_STUDENTS_PER_CLASS = 500 } = process.env;
 
 const LOG = new Logger('StudentListingService.js');
 
-const validateStudentListingRequest = (
+export const validateStudentListingRequest = (
   reqClassCode: string,
   reqOffset: string,
   reqLimit: string
