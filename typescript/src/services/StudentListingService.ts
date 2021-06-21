@@ -5,6 +5,7 @@ import Student from 'models/Student';
 import Class from 'models/Class';
 import TeacherStudentClassSubjectMapping from 'models/TeacherStudentClassSubjectMapping';
 import { StudentListingResponse } from 'types/StudentListingResponse';
+import { AxiosResponse } from 'axios';
 
 const { MAX_STUDENTS_PER_CLASS = 500 } = process.env;
 
@@ -42,17 +43,12 @@ export const validateStudentListingRequest = (
   return;
 };
 
-export const retrieveStudentsByClassCode = async (
-  reqClassCode: string,
-  reqOffset: string,
-  reqLimit: string
-): Promise<StudentListingResponse> => {
+const retrieveExternalStudentsByClassCode = async (reqClassCode: string) => {
   // For Troubleshooting only
-  // LOG.info(`reqClassCode: ${reqClassCode}, reqOffset: ${reqOffset}, reqLimit: ${reqLimit}`);
+  // LOG.info(`reqClassCode: ${reqClassCode}`);
 
-  // Retrieve all External Students in the class as we need to merge with Local Students
-  let externalClassStudentMapping;
-  let externalClassStudentMappingData;
+  let externalClassStudentMapping: AxiosResponse<StudentListingResponse>;
+  let externalClassStudentMappingData: StudentListingResponse;
   try {
     externalClassStudentMapping = await api.get(
       `http://localhost:5000/students?class=${reqClassCode}&offset=0&limit=${MAX_STUDENTS_PER_CLASS}`
@@ -73,40 +69,72 @@ export const retrieveStudentsByClassCode = async (
     LOG.error('External Student Listing API is unavailable');
     throw new Error('SERVICE_UNAVAILABLE');
   }
+  return externalClassStudentMappingData;
+};
+
+const retrieveLocalStudentsByClassCode = async (reqClassCode: string) => {
+  // For Troubleshooting only
+  // LOG.info(`reqClassCode: ${reqClassCode}`);
+
+  let localClassStudentMappingData: StudentListingResponse;
+  try {
+    localClassStudentMappingData =
+      await TeacherStudentClassSubjectMapping.findAndCountAll({
+        attributes: [],
+        where: {
+          active: {
+            [Op.eq]: true,
+          },
+        },
+        include: [
+          {
+            model: Class,
+            attributes: [],
+            where: {
+              code: {
+                [Op.eq]: reqClassCode,
+              },
+            },
+          },
+          {
+            model: Student,
+            attributes: ['id', 'email', 'name'],
+          },
+        ],
+      });
+  } catch (error) {
+    LOG.error('Error retrieveing Local Student Listing');
+    throw new Error('SERVICE_UNAVAILABLE');
+  }
+  return localClassStudentMappingData;
+};
+
+export const retrieveStudentsByClassCode = async (
+  reqClassCode: string
+): Promise<[StudentListingResponse, StudentListingResponse]> => {
+  // For Troubleshooting only
+  // LOG.info(`reqClassCode: ${reqClassCode}, reqOffset: ${reqOffset}, reqLimit: ${reqLimit}`);
+
+  // Retrieve all External Students & Local Students in the class as we need to merge
+  const [externalClassStudentMappingData, localClassStudentMappingData] =
+    await Promise.all([
+      retrieveExternalStudentsByClassCode(reqClassCode),
+      retrieveLocalStudentsByClassCode(reqClassCode),
+    ]);
 
   // For Troubleshooting only
   // LOG.info(JSON.stringify(externalClassStudentMappingData));
-
-  // Retrieve all Local Students in the class
-  const localClassStudentMappingData =
-    await TeacherStudentClassSubjectMapping.findAndCountAll({
-      attributes: [],
-      where: {
-        active: {
-          [Op.eq]: true,
-        },
-      },
-      include: [
-        {
-          model: Class,
-          attributes: [],
-          where: {
-            code: {
-              [Op.eq]: reqClassCode,
-            },
-          },
-        },
-        {
-          model: Student,
-          attributes: ['id', 'email', 'name'],
-        },
-      ],
-    });
-
-  // For Troubleshooting only
   // LOG.info(JSON.stringify(localClassStudentMappingData));
 
-  // Merge External Students and Local Students for sorting
+  return [externalClassStudentMappingData, localClassStudentMappingData];
+};
+
+export const mergeSortOffsetLimitExternalAndLocalStudents = (
+  externalClassStudentMappingData: StudentListingResponse,
+  localClassStudentMappingData: StudentListingResponse,
+  reqOffset: string,
+  reqLimit: string
+): StudentListingResponse => {
   const mergedStudents: Student[] = [];
   for (const externalStudent of externalClassStudentMappingData.students) {
     mergedStudents.push({
@@ -129,6 +157,7 @@ export const retrieveStudentsByClassCode = async (
     if (a.name < b.name) return -1;
     return 0;
   });
+
   const searchedStudents: Student[] = mergedStudents.slice(
     parseInt(reqOffset),
     parseInt(reqOffset) + parseInt(reqLimit)

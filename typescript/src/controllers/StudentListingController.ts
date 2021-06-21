@@ -1,7 +1,11 @@
 import Express, { RequestHandler } from 'express';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 import Logger from '../config/logger';
-import { validateStudentListingRequest, retrieveStudentsByClassCode } from 'services/StudentListingService';
+import {
+  validateStudentListingRequest,
+  retrieveStudentsByClassCode,
+  mergeSortOffsetLimitExternalAndLocalStudents,
+} from 'services/StudentListingService';
 
 const StudentListingController = Express.Router();
 const LOG = new Logger('StudentListingController.js');
@@ -15,12 +19,19 @@ const studentListingHandler: RequestHandler = async (req, res, next) => {
     // Perform Validation on req
     validateStudentListingRequest(reqClassCode, reqOffset, reqLimit);
 
-    // Process
-    const response = await retrieveStudentsByClassCode(
-      reqClassCode,
+    // Retrieve all students
+    const [externalStudents, localStudents] = await retrieveStudentsByClassCode(
+      reqClassCode
+    );
+
+    // Merge External Students and Local Students and sort them according to students name
+    const response = mergeSortOffsetLimitExternalAndLocalStudents(
+      externalStudents,
+      localStudents,
       reqOffset,
       reqLimit
     );
+
     return res.status(StatusCodes.OK).json(response);
   } catch (error) {
     LOG.error(error.message);
