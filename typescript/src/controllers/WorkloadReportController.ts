@@ -1,14 +1,19 @@
 import Express, { RequestHandler } from 'express';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 import Logger from '../config/logger';
-import { retrieveWorkloadReport } from 'services/WorkloadReportService';
+import { retrieveWorkloadReportData, restructureWorkloadReport } from 'services/WorkloadReportService';
 
 const WorkloadReportController = Express.Router();
 const LOG = new Logger('WorkloadReportController.js');
 
 const workloadReportHandler: RequestHandler = async (req, res, next) => {
   try {
-    const response = await retrieveWorkloadReport();
+    // Retrieve workload report data from database
+    const workloadReportData = await retrieveWorkloadReportData();
+
+    // Restructure database result to the correct API response structure
+    const response = restructureWorkloadReport(workloadReportData);
+
     return res.status(StatusCodes.OK).json(response);
   } catch (error) {
     LOG.error(error.message);
