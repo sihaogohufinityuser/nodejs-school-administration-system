@@ -15,6 +15,9 @@ export const validateStudentListingRequest = (
   reqOffset: string,
   reqLimit: string
 ): void => {
+  // For Troubleshooting only
+  // LOG.info(`reqClassCode: ${reqClassCode}, reqOffset: ${reqOffset}, reqLimit: ${reqLimit}`);
+
   // Validating all parameters to be mandatory
   if (!reqClassCode || !reqOffset || !reqLimit) {
     LOG.error(
@@ -22,7 +25,7 @@ export const validateStudentListingRequest = (
     );
     throw new Error('BAD_REQUEST');
   }
-  // Validating offset and limit to be integar parseable
+  // Validating offset and limit to be number parseable
   if (isNaN(Number(reqOffset))) {
     LOG.error(
       'Validation failed for StudentListing API Query Parameters. offset value is invalid.'
@@ -46,8 +49,6 @@ export const retrieveStudentsByClassCode = async (
 ): Promise<StudentListingResponse> => {
   // For Troubleshooting only
   // LOG.info(`reqClassCode: ${reqClassCode}, reqOffset: ${reqOffset}, reqLimit: ${reqLimit}`);
-
-  validateStudentListingRequest(reqClassCode, reqOffset, reqLimit);
 
   // Retrieve all External Students in the class as we need to merge with Local Students
   let externalClassStudentMapping;
