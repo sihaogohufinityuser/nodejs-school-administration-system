@@ -1,7 +1,7 @@
 import Student from '../models/Student';
 
 export interface StudentListingResponse {
-  count?: string;
+  count?: number;
   rows?: Student[];
   students?: Student[];
 }
