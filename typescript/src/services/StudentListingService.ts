@@ -8,6 +8,7 @@ import { StudentListingResponse } from 'types/StudentListingResponse';
 import { AxiosResponse } from 'axios';
 
 const { MAX_STUDENTS_PER_CLASS = 500 } = process.env;
+const { EXTERNAL_SYSTEM_URL = 'http://localhost:5000' } = process.env;
 
 const LOG = new Logger('StudentListingService.js');
 
@@ -51,7 +52,7 @@ const retrieveExternalStudentsByClassCode = async (reqClassCode: string) => {
   let externalClassStudentMappingData: StudentListingResponse;
   try {
     externalClassStudentMapping = await api.get(
-      `http://localhost:5000/students?class=${reqClassCode}&offset=0&limit=${MAX_STUDENTS_PER_CLASS}`
+      `${EXTERNAL_SYSTEM_URL}/students?class=${reqClassCode}&offset=0&limit=${MAX_STUDENTS_PER_CLASS}`
     );
     externalClassStudentMappingData = externalClassStudentMapping.data;
 
@@ -61,7 +62,7 @@ const retrieveExternalStudentsByClassCode = async (reqClassCode: string) => {
         `External Students more than MAX_STUDENTS_PER_CLASS: ${MAX_STUDENTS_PER_CLASS}, fetch again with new limit.`
       );
       externalClassStudentMapping = await api.get(
-        `http://localhost:5000/students?class=${reqClassCode}&offset=0&limit=${externalClassStudentMappingData.count}`
+        `${EXTERNAL_SYSTEM_URL}/students?class=${reqClassCode}&offset=0&limit=${externalClassStudentMappingData.count}`
       );
       externalClassStudentMappingData = externalClassStudentMapping.data;
     }
