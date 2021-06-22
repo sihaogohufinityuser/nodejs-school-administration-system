@@ -1,7 +1,6 @@
 import {
   validateDataImport,
   populateDataObjectsFromJson,
-  updateOrInsertDataObjects,
 } from 'services/DataImportService';
 
 describe('testing DataImportService', () => {
