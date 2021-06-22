@@ -1,7 +1,7 @@
 import Express, { RequestHandler } from 'express';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 import Logger from '../config/logger';
-import { retrieveWorkloadReportData, restructureWorkloadReport } from 'services/WorkloadReportService';
+import { retrieveWorkloadReportDataRaw, sortAndRestructureWorkloadReport } from 'services/WorkloadReportService';
 
 const WorkloadReportController = Express.Router();
 const LOG = new Logger('WorkloadReportController.js');
@@ -9,10 +9,10 @@ const LOG = new Logger('WorkloadReportController.js');
 const workloadReportHandler: RequestHandler = async (req, res, next) => {
   try {
     // Retrieve workload report data from database
-    const workloadReportData = await retrieveWorkloadReportData();
+    const workloadReportData = await retrieveWorkloadReportDataRaw();
 
     // Restructure database result to the correct API response structure
-    const response = restructureWorkloadReport(workloadReportData);
+    const response = sortAndRestructureWorkloadReport(workloadReportData);
 
     return res.status(StatusCodes.OK).json(response);
   } catch (error) {
