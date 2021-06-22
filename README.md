@@ -7,8 +7,8 @@ You can add additional library that will aid you in fulfiling the requirements.
 Please read through NodeJS_Assessment_v2.docx carefully before you attempt.
 
 ## Prerequisites
-- NodeJS v12.x.x
-- Docker
+- NodeJS v14.17.0
+- Docker Desktop 3.4.0 (Docker Engine 20.10.7)
 
 <br>
 
@@ -56,6 +56,14 @@ npm start
 This will start the application in watch mode.
 ```bash
 npm run start:dev
+```
+
+<br>
+
+### Unit Testing
+This will run the Unit Test using Jest.
+```bash
+npm run test
 ```
 
 <br>
