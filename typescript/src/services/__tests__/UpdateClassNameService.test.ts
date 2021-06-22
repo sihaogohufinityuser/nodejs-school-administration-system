@@ -1,3 +1,5 @@
+import { Op } from 'sequelize';
+import Class from 'models/Class';
 import {
   validateUpdateClassNameRequest,
   updateClassNameByClassCode,
@@ -19,12 +21,21 @@ describe('testing UpdateClassNameService', () => {
     }).not.toThrow();
   });
 
-  /* test('updateClassNameByClassCode should return BAD_REQUEST error when class cannot be found', () => {
-    expect(() => {
-      updateClassNameByClassCode(
-        'class code that cannot be found',
-        'P1 Integrity'
-      );
-    }).toThrowError(new Error('BAD_REQUEST'));
-  }); */
+  test('updateClassNameByClassCode should return BAD_REQUEST error when class cannot be found', async () => {
+    // Mocking Model.findOne to return null
+    jest.spyOn(Class, 'findOne').mockResolvedValue(null);
+
+    const reqClassCode = 'class code that cannot be found';
+    const reqClassName = 'P1 Integrity';
+    await expect(
+      updateClassNameByClassCode(reqClassCode, reqClassName)
+    ).rejects.toThrowError(new Error('BAD_REQUEST'));
+    expect(Class.findOne).toBeCalledWith({
+      where: {
+        code: {
+          [Op.eq]: reqClassCode,
+        },
+      },
+    });
+  });
 });
