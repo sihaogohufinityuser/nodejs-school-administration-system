@@ -7,7 +7,7 @@ class ClassList extends React.Component {
       <div className="class-list">
         <UpdateClass />
         <div className="className-update-list"></div>
-        <h1>Class List</h1>
+        <h1>Class List (TODO)</h1>
         <table>
           <thead>
             <tr>

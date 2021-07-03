@@ -4,18 +4,22 @@ class StudentList extends React.Component {
   render() {
     return (
       <div className="student-list">
-        <h1>Student List</h1>
+        <h1>Student List (TODO)</h1>
         <table>
-          <tr>
-            <th>ID</th>
-            <th>Email</th>
-            <th>Name</th>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
         </table>
       </div>
     );
