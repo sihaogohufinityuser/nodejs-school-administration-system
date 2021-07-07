@@ -2,7 +2,15 @@ import * as React from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 
-class UpdateTeachingRecords extends React.Component<{}, any> {
+class UpdateTeachingRecords extends React.Component<
+  {},
+  {
+    fileInput: Blob | null;
+    is204: boolean | null;
+    is400: boolean | null;
+    is500: boolean | null;
+  }
+> {
   constructor(props: {} | Readonly<{}>) {
     super(props);
 
@@ -10,7 +18,7 @@ class UpdateTeachingRecords extends React.Component<{}, any> {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      fileInput: '',
+      fileInput: null,
       is204: null,
       is400: null,
       is500: null,
@@ -33,7 +41,7 @@ class UpdateTeachingRecords extends React.Component<{}, any> {
       this.setState({ is400: true });
     } else {
       const formData = new FormData();
-      formData.append('data', this.state.fileInput, this.state.fileInput.name);
+      formData.append('data', this.state.fileInput);
       console.log(this.state.fileInput);
 
       axios
@@ -54,7 +62,7 @@ class UpdateTeachingRecords extends React.Component<{}, any> {
           }
         });
 
-      this.setState({ fileInput: '' });
+      this.setState({ fileInput: null });
     }
   }
   render() {
