@@ -11,7 +11,7 @@ class UpdateTeachingRecords extends React.Component<
     is500: boolean | null;
   }
 > {
-  constructor(props: {} | Readonly<{}>) {
+  constructor(props: {}) {
     super(props);
 
     this.onChangeFileInput = this.onChangeFileInput.bind(this);
