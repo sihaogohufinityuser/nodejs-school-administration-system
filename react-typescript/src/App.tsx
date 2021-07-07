@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import { Nav } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { IndexLinkContainer } from 'react-router-bootstrap';
 import Home from './components/Home';
 import TeacherList from './components/TeacherList';
 import ClassList from './components/ClassList';
@@ -16,34 +16,34 @@ const App: React.FC = (): JSX.Element => {
         <header className="App-header">
           <Nav variant="pills" defaultActiveKey="/">
             <Nav.Item>
-              <LinkContainer to={'/'}>
+              <IndexLinkContainer to={'/'}>
                 <Nav.Link>Home</Nav.Link>
-              </LinkContainer>
+              </IndexLinkContainer>
             </Nav.Item>
             <Nav.Item>
-              <LinkContainer to={'/teacher-list'}>
+              <IndexLinkContainer to={'/teacher-list'}>
                 <Nav.Link>Teacher List</Nav.Link>
-              </LinkContainer>
+              </IndexLinkContainer>
             </Nav.Item>
             <Nav.Item>
-              <LinkContainer to={'/student-list'}>
+              <IndexLinkContainer to={'/student-list'}>
                 <Nav.Link>Student List</Nav.Link>
-              </LinkContainer>
+              </IndexLinkContainer>
             </Nav.Item>
             <Nav.Item>
-              <LinkContainer to={'/class-list'}>
+              <IndexLinkContainer to={'/class-list'}>
                 <Nav.Link>Class List</Nav.Link>
-              </LinkContainer>
+              </IndexLinkContainer>
             </Nav.Item>
             <Nav.Item>
-              <LinkContainer to={'/subject-list'}>
+              <IndexLinkContainer to={'/subject-list'}>
                 <Nav.Link>Subject List</Nav.Link>
-              </LinkContainer>
+              </IndexLinkContainer>
             </Nav.Item>
             <Nav.Item>
-              <LinkContainer to={'/teaching-records'}>
+              <IndexLinkContainer to={'/teaching-records'}>
                 <Nav.Link>Teaching Records</Nav.Link>
-              </LinkContainer>
+              </IndexLinkContainer>
             </Nav.Item>
           </Nav>
           <hr />
