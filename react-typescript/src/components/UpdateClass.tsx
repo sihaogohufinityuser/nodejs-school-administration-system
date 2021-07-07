@@ -2,8 +2,17 @@ import * as React from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 
-class UpdateClass extends React.Component<{}, any> {
-  constructor(props: {} | Readonly<{}>) {
+class UpdateClass extends React.Component<
+  {},
+  {
+    classCode: string;
+    className: string;
+    is200: boolean | null;
+    is400: boolean | null;
+    is500: boolean | null;
+  }
+> {
+  constructor(props: {}) {
     super(props);
 
     this.onChangeClassCode = this.onChangeClassCode.bind(this);
