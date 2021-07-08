@@ -9,6 +9,7 @@ import StudentList from './components/StudentList';
 import SubjectList from './components/SubjectList';
 import TeachingRecords from './components/TeachingRecords';
 import MyClass from './components/MyClass';
+import Reports from './components/Reports';
 
 const App: React.FC = (): JSX.Element => {
   return (
@@ -51,6 +52,11 @@ const App: React.FC = (): JSX.Element => {
                 <Nav.Link>My Class</Nav.Link>
               </IndexLinkContainer>
             </Nav.Item>
+            <Nav.Item>
+              <IndexLinkContainer to={'/reports'}>
+                <Nav.Link>Reports</Nav.Link>
+              </IndexLinkContainer>
+            </Nav.Item>
           </Nav>
           <hr />
           <Switch>
@@ -61,6 +67,7 @@ const App: React.FC = (): JSX.Element => {
             <Route path="/subject-list" component={SubjectList} />
             <Route path="/teaching-records" component={TeachingRecords} />
             <Route path="/my-class/:classCode?/:pageId?" component={MyClass} />
+            <Route path="/reports/:reportName?" component={Reports} />
           </Switch>
         </header>
       </div>
