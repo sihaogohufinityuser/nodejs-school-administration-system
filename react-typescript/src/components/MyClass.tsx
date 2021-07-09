@@ -17,8 +17,8 @@ class MyClass extends React.Component<
   MyClassProps,
   {
     classCodeFormInput: string;
-    studentsCount: number;
-    studentsList: string;
+    allStudentsCount: number;
+    allStudentsList: string;
     pageItems: [];
     is200: boolean | null;
     is400: boolean | null;
@@ -33,8 +33,8 @@ class MyClass extends React.Component<
 
     this.state = {
       classCodeFormInput: '',
-      studentsCount: 0,
-      studentsList: '',
+      allStudentsCount: 0,
+      allStudentsList: '',
       pageItems: [],
       is200: null,
       is400: null,
@@ -52,7 +52,7 @@ class MyClass extends React.Component<
         this.setState({
           classCodeFormInput: this.props.match.params.classCode,
         });
-        this.retrieveStudentsList(
+        this.retrieveMyClass(
           this.props.match.params.classCode,
           parseInt(this.props.match.params.pageId)
         );
@@ -70,7 +70,7 @@ class MyClass extends React.Component<
           `/my-class/${this.props.match.params.classCode}/1`
         );
       } else {
-        this.retrieveStudentsList(
+        this.retrieveMyClass(
           this.props.match.params.classCode,
           parseInt(this.props.match.params.pageId)
         );
@@ -94,10 +94,10 @@ class MyClass extends React.Component<
   }
 
   generateTableList(students: [], pageId: number): any {
-    let studentsArray: any[] = [];
+    let allStudentsArray: any[] = [];
     for (let index = 0; index < students.length; index++) {
       const student: any = students[index];
-      studentsArray.push(
+      allStudentsArray.push(
         React.createElement(
           'tr',
           {},
@@ -113,7 +113,7 @@ class MyClass extends React.Component<
         )
       );
     }
-    return React.createElement('tbody', {}, studentsArray);
+    return React.createElement('tbody', {}, allStudentsArray);
   }
 
   generatePageItems(count: number, pageId: number): any {
@@ -134,7 +134,7 @@ class MyClass extends React.Component<
     return pageItemsArray;
   }
 
-  retrieveStudentsList(classCode: string, pageId: number): void {
+  retrieveMyClass(classCode: string, pageId: number): void {
     const offset = (pageId - 1) * MAX_STUDENTS_PER_PAGE;
     axios
       .get(
@@ -144,8 +144,8 @@ class MyClass extends React.Component<
         //console.log(res.data);
         this.setState({
           is200: true,
-          studentsCount: res.data.count,
-          studentsList: this.generateTableList(
+          allStudentsCount: res.data.count,
+          allStudentsList: this.generateTableList(
             res.data.students,
             parseInt(this.props.match.params.pageId)
           ),
@@ -171,7 +171,7 @@ class MyClass extends React.Component<
       <div className="my-class">
         {this.state.is200 ? (
           <Alert variant="success">
-            You have successfully retrieved the Students List.
+            You have successfully retrieved your class information.
           </Alert>
         ) : this.state.is400 ? (
           <Alert variant="danger">
@@ -200,8 +200,8 @@ class MyClass extends React.Component<
             </Button>
           </Form.Group>
         </Form>
-        <h1>Students List</h1>
-        <h5>Students Count: {this.state.studentsCount}</h5>
+        <h1>My Class Information</h1>
+        <h5>Students Count: {this.state.allStudentsCount}</h5>
         <Table striped bordered hover variant="dark">
           <thead>
             <tr>
@@ -212,7 +212,7 @@ class MyClass extends React.Component<
               <th>Group</th>
             </tr>
           </thead>
-          {this.state.studentsList}
+          {this.state.allStudentsList}
         </Table>
         <Pagination>{this.state.pageItems}</Pagination>
       </div>
