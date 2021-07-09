@@ -112,10 +112,10 @@ class MyClass extends React.Component<
       allStudentsArray.push(
         React.createElement(
           'tr',
-          {},
+          { key: index + 1 + (pageId - 1) * MAX_STUDENTS_PER_PAGE },
           React.createElement(
             'td',
-            { key: index + 1 + (pageId - 1) * MAX_STUDENTS_PER_PAGE },
+            {},
             index + 1 + (pageId - 1) * MAX_STUDENTS_PER_PAGE
           ),
           React.createElement('td', {}, student.id),
