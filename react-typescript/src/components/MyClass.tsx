@@ -65,15 +65,27 @@ class MyClass extends React.Component<
       this.props.match.params.classCode !== prevProps.match.params.classCode ||
       this.props.match.params.pageId !== prevProps.match.params.pageId
     ) {
-      if (!this.props.match.params.pageId) {
-        this.props.history.push(
-          `/my-class/${this.props.match.params.classCode}/1`
-        );
+      if (this.props.match.params.classCode) {
+        if (!this.props.match.params.pageId) {
+          this.props.history.push(
+            `/my-class/${this.props.match.params.classCode}/1`
+          );
+        } else {
+          this.retrieveMyClass(
+            this.props.match.params.classCode,
+            parseInt(this.props.match.params.pageId)
+          );
+        }
       } else {
-        this.retrieveMyClass(
-          this.props.match.params.classCode,
-          parseInt(this.props.match.params.pageId)
-        );
+        this.setState({
+          classCodeFormInput: '',
+          allStudentsCount: 0,
+          allStudentsList: '',
+          pageItems: [],
+          is200: null,
+          is400: null,
+          is500: null,
+        });
       }
     }
   }
