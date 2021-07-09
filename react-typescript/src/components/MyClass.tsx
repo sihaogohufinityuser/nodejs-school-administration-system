@@ -42,6 +42,24 @@ class MyClass extends React.Component<
     };
   }
 
+  componentDidMount() {
+    if (this.props.match.params.classCode) {
+      if (!this.props.match.params.pageId) {
+        this.props.history.push(
+          `/my-class/${this.props.match.params.classCode}/1`
+        );
+      } else {
+        this.setState({
+          classCodeFormInput: this.props.match.params.classCode,
+        });
+        this.retrieveStudentsList(
+          this.props.match.params.classCode,
+          parseInt(this.props.match.params.pageId)
+        );
+      }
+    }
+  }
+
   componentDidUpdate(prevProps: MyClassProps) {
     if (
       this.props.match.params.classCode !== prevProps.match.params.classCode ||
