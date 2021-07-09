@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Alert, Table, Pagination, Button } from 'react-bootstrap';
+import { Alert, Table, Pagination } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import axios from 'axios';
 
@@ -25,8 +25,6 @@ class TeacherList extends React.Component<
   constructor(props: TeacherListProps) {
     super(props);
 
-    this.startRetrieving = this.startRetrieving.bind(this);
-
     this.state = {
       teachersCount: 0,
       teachersList: '',
@@ -39,6 +37,8 @@ class TeacherList extends React.Component<
   componentDidMount() {
     if (this.props.match.params.pageId) {
       this.retrieveTeachersList(parseInt(this.props.match.params.pageId));
+    } else {
+      this.props.history.push(`/teachers/1`);
     }
   }
 
@@ -51,11 +51,6 @@ class TeacherList extends React.Component<
       }
     }
   }
-
-  startRetrieving() {
-    this.props.history.push(`/teachers/1`);
-  }
-
   generateTableList(teachers: [], pageId: number): any {
     let teachersArray: any[] = [];
     for (let index = 0; index < teachers.length; index++) {
@@ -140,9 +135,6 @@ class TeacherList extends React.Component<
           ''
         )}
         <h1>Teachers List</h1>
-        <Button variant="primary" onClick={() => this.startRetrieving()}>
-          Retrieve
-        </Button>
         <h5>Teachers Count: {this.state.teachersCount}</h5>
         <Table striped bordered hover variant="dark">
           <thead>
