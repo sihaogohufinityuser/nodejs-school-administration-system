@@ -15,28 +15,32 @@ type TeacherListProps = RouteComponentProps<TeacherListParams>;
 class TeacherList extends React.Component<
   TeacherListProps,
   {
-    teachersCount: number;
-    teachersList: string;
+    displayTeachersList: string;
     pageItems: [];
     is200: boolean | null;
     is500: boolean | null;
   }
 > {
+  teachersCount: number = 0;
+  teachersList: any[] = [];
+
   constructor(props: TeacherListProps) {
     super(props);
 
     this.state = {
-      teachersCount: 0,
-      teachersList: '',
+      displayTeachersList: '',
       pageItems: [],
       is200: null,
       is500: null,
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    await this.retrieveTeachersList();
     if (this.props.match.params.pageId) {
-      this.retrieveTeachersList(parseInt(this.props.match.params.pageId));
+      this.generateTeachersListByPageId(
+        parseInt(this.props.match.params.pageId)
+      );
     } else {
       this.props.history.push(`/teachers/1`);
     }
@@ -47,18 +51,20 @@ class TeacherList extends React.Component<
       if (!this.props.match.params.pageId) {
         this.props.history.push(`/teachers/1`);
       } else {
-        this.retrieveTeachersList(parseInt(this.props.match.params.pageId));
+        this.generateTeachersListByPageId(
+          parseInt(this.props.match.params.pageId)
+        );
       }
     }
   }
-  generateTableList(teachers: [], pageId: number): any {
+  generateTableList(teachers: any[], pageId: number): any {
     let teachersArray: any[] = [];
     for (let index = 0; index < teachers.length; index++) {
       const teacher: any = teachers[index];
       teachersArray.push(
         React.createElement(
           'tr',
-          {},
+          { key: index + 1 + (pageId - 1) * MAX_TEACHERS_PER_PAGE },
           React.createElement(
             'td',
             {},
@@ -81,8 +87,8 @@ class TeacherList extends React.Component<
     for (let index = 0; index < numberOfPages; index++) {
       const toLink = `/teachers/${index + 1}`;
       pageItemsArray.push(
-        <LinkContainer to={toLink}>
-          <Pagination.Item key={index + 1} active={index + 1 === pageId}>
+        <LinkContainer key={index + 1} to={toLink}>
+          <Pagination.Item active={index + 1 === pageId}>
             {index + 1}
           </Pagination.Item>
         </LinkContainer>
@@ -91,26 +97,16 @@ class TeacherList extends React.Component<
     return pageItemsArray;
   }
 
-  retrieveTeachersList(pageId: number): void {
-    const offset = (pageId - 1) * MAX_TEACHERS_PER_PAGE;
-    axios
-      .get(
-        `http://localhost:3000/api/teachers?offset=${offset}&limit=${MAX_TEACHERS_PER_PAGE}`
-      )
+  async retrieveTeachersList(): Promise<void> {
+    await axios
+      .get(`http://localhost:3000/api/teachers`)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         this.setState({
           is200: true,
-          teachersCount: res.data.length,
-          teachersList: this.generateTableList(
-            res.data,
-            parseInt(this.props.match.params.pageId)
-          ),
-          pageItems: this.generatePageItems(
-            res.data.length,
-            parseInt(this.props.match.params.pageId)
-          ),
         });
+        this.teachersCount = res.data.length;
+        this.teachersList = res.data;
       })
       .catch((error) => {
         console.log(error);
@@ -118,6 +114,21 @@ class TeacherList extends React.Component<
           this.setState({ is500: true });
         }
       });
+  }
+
+  generateTeachersListByPageId(pageId: number) {
+    const offset = (pageId - 1) * MAX_TEACHERS_PER_PAGE;
+    this.setState({
+      is200: true,
+      displayTeachersList: this.generateTableList(
+        this.teachersList.slice(offset, offset + MAX_TEACHERS_PER_PAGE),
+        parseInt(this.props.match.params.pageId)
+      ),
+      pageItems: this.generatePageItems(
+        this.teachersCount,
+        parseInt(this.props.match.params.pageId)
+      ),
+    });
   }
 
   render() {
@@ -135,7 +146,7 @@ class TeacherList extends React.Component<
           ''
         )}
         <h1>Teachers List</h1>
-        <h5>Teachers Count: {this.state.teachersCount}</h5>
+        <h5>Teachers Count: {this.teachersCount}</h5>
         <Table striped bordered hover variant="dark">
           <thead>
             <tr>
@@ -147,7 +158,7 @@ class TeacherList extends React.Component<
               <th>Updated At</th>
             </tr>
           </thead>
-          {this.state.teachersList}
+          {this.state.displayTeachersList}
         </Table>
         <Pagination>{this.state.pageItems}</Pagination>
       </div>
