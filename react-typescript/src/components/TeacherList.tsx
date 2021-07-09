@@ -34,8 +34,10 @@ class TeacherList extends React.Component<
       is200: null,
       is500: null,
     };
+  }
 
-    if (props.match.params.pageId) {
+  componentDidMount() {
+    if (this.props.match.params.pageId) {
       this.retrieveTeachersList(parseInt(this.props.match.params.pageId));
     }
   }
