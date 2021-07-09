@@ -80,7 +80,7 @@ class MyClass extends React.Component<
         this.setState({
           classCodeFormInput: '',
           allStudentsCount: 0,
-          allStudentsList: '',
+          allStudentsList: [],
           pageItems: [],
           is200: null,
           is400: null,
