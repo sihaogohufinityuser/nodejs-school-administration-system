@@ -15,7 +15,7 @@ type TeacherListProps = RouteComponentProps<TeacherListParams>;
 class TeacherList extends React.Component<
   TeacherListProps,
   {
-    displayTeachersList: string;
+    displayTeachersList: [];
     pageItems: [];
     is200: boolean | null;
     is500: boolean | null;
@@ -28,7 +28,7 @@ class TeacherList extends React.Component<
     super(props);
 
     this.state = {
-      displayTeachersList: '',
+      displayTeachersList: [],
       pageItems: [],
       is200: null,
       is500: null,

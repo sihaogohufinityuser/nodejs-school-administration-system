@@ -18,7 +18,7 @@ class MyClass extends React.Component<
   {
     classCodeFormInput: string;
     allStudentsCount: number;
-    allStudentsList: string;
+    allStudentsList: [];
     pageItems: [];
     is200: boolean | null;
     is400: boolean | null;
@@ -34,7 +34,7 @@ class MyClass extends React.Component<
     this.state = {
       classCodeFormInput: '',
       allStudentsCount: 0,
-      allStudentsList: '',
+      allStudentsList: [],
       pageItems: [],
       is200: null,
       is400: null,
