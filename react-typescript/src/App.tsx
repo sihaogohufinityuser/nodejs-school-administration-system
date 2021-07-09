@@ -16,7 +16,7 @@ const App: React.FC = (): JSX.Element => {
     <Router>
       <div className="App">
         <header className="App-header">
-          <Nav variant="pills" defaultActiveKey="/">
+          <Nav variant="pills">
             <Nav.Item>
               <IndexLinkContainer to={'/'}>
                 <Nav.Link>Home</Nav.Link>
