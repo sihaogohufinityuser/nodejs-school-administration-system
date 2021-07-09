@@ -23,7 +23,7 @@ const App: React.FC = (): JSX.Element => {
               </IndexLinkContainer>
             </Nav.Item>
             <Nav.Item>
-              <IndexLinkContainer to={'/teacher-list'}>
+              <IndexLinkContainer to={'/teachers'}>
                 <Nav.Link>Teacher List</Nav.Link>
               </IndexLinkContainer>
             </Nav.Item>
@@ -61,7 +61,7 @@ const App: React.FC = (): JSX.Element => {
           <hr />
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/teacher-list" component={TeacherList} />
+            <Route path="/teachers/:pageId?" component={TeacherList} />
             <Route path="/student-list" component={StudentList} />
             <Route path="/class-list" component={ClassList} />
             <Route path="/subject-list" component={SubjectList} />
