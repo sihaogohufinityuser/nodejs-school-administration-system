@@ -115,7 +115,7 @@ class MyClass extends React.Component<
           {},
           React.createElement(
             'td',
-            {},
+            { key: index + 1 + (pageId - 1) * MAX_STUDENTS_PER_PAGE },
             index + 1 + (pageId - 1) * MAX_STUDENTS_PER_PAGE
           ),
           React.createElement('td', {}, student.id),
@@ -136,8 +136,8 @@ class MyClass extends React.Component<
         index + 1
       }`;
       pageItemsArray.push(
-        <LinkContainer to={toLink}>
-          <Pagination.Item key={index + 1} active={index + 1 === pageId}>
+        <LinkContainer key={index + 1}  to={toLink}>
+          <Pagination.Item active={index + 1 === pageId}>
             {index + 1}
           </Pagination.Item>
         </LinkContainer>
