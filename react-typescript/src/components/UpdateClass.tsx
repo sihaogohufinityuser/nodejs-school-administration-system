@@ -3,7 +3,7 @@ import { Alert, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 
 class UpdateClass extends React.Component<
-  {},
+  { rerender: () => void },
   {
     classCode: string;
     className: string;
@@ -12,7 +12,7 @@ class UpdateClass extends React.Component<
     is500: boolean | null;
   }
 > {
-  constructor(props: {}) {
+  constructor(props: { rerender: () => void }) {
     super(props);
 
     this.onChangeClassCode = this.onChangeClassCode.bind(this);
@@ -61,6 +61,7 @@ class UpdateClass extends React.Component<
       .then((res) => {
         console.log(res.data);
         this.setState({ is200: true });
+        this.props.rerender();
       })
       .catch((error) => {
         console.log(error);

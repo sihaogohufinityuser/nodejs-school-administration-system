@@ -33,7 +33,7 @@ const App: React.FC = (): JSX.Element => {
               </IndexLinkContainer>
             </Nav.Item>
             <Nav.Item>
-              <IndexLinkContainer to={'/class-list'}>
+              <IndexLinkContainer to={'/classes'}>
                 <Nav.Link>Class List</Nav.Link>
               </IndexLinkContainer>
             </Nav.Item>
@@ -63,7 +63,7 @@ const App: React.FC = (): JSX.Element => {
             <Route exact path="/" component={Home} />
             <Route path="/teachers/:pageId?" component={TeacherList} />
             <Route path="/student-list" component={StudentList} />
-            <Route path="/class-list" component={ClassList} />
+            <Route path="/classes/:pageId?" component={ClassList} />
             <Route path="/subject-list" component={SubjectList} />
             <Route path="/teaching-records" component={TeachingRecords} />
             <Route path="/my-class/:classCode?/:pageId?" component={MyClass} />
