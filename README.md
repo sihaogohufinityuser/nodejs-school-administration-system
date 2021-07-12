@@ -21,6 +21,7 @@ Please read through NodeJS_Assessment_v2.docx carefully before you attempt.
 | 4 | README.md | file | This file |
 | 5 | data.sample.csv | file | Sample csv for question 1 |
 | 6 | school-administration-system.postman_collection.json | file | Postman script for uploading file |
+| 7 | react-typescript | dir | This holds the additional code which is developed for React for front-end to integrate with the backend APIs |
 
 <br>
 
@@ -29,38 +30,42 @@ Please read through NodeJS_Assessment_v2.docx carefully before you attempt.
 |-----|-------------|--------------|
 | 1 | database | 3306 |
 | 2 | external | 5000 |
-| 3 | applicaiton | 3000 |
+| 3 | backend API applicaiton | 3000 |
+| 3 | react applicaiton | 2999 |
 
 <br>
 
 ## Commands
-All the commands listed should be ran in ./typescript directory.
+All the commands listed should be ran in either ./typescript or ./react-typescript directory, depending on which service to start up.
+For all services to work, it is required to start up ./typescript first, followed by ./react-typescript.
 
-### Installing dependencies
+### Installing dependencies (for ./typescript & ./react-typescript)
 ```bash
 npm install
 ```
 
 <br>
 
-### Starting Project
+### Starting Project (for ./typescript & ./react-typescript)
 Starting the project in local environment.
 This will start all the dependencies services i.e. database and external (folder).
+Ensure Docker Desktop (or equivalent) is running before running command.
 ```bash
 npm start
 ```
 
 <br>
 
-### Running in watch mode
+### Running in watch mode (for ./typescript only)
 This will start the application in watch mode.
+Ensure Docker Desktop (or equivalent) is running before running command.
 ```bash
 npm run start:dev
 ```
 
 <br>
 
-### Unit Testing
+### Unit Testing (for ./typescript only)
 This will run the Unit Test using Jest.
 ```bash
 npm run test
@@ -68,7 +73,7 @@ npm run test
 
 <br>
 
-### Check local application is started
+### Check local node.js application is started (for ./typescript only)
 You should be able to call (GET) the following endpoint and get a 200 response
 
 ```
@@ -77,10 +82,19 @@ http://localhost:3000/api/healthcheck
 
 <br>
 
-### Check external system is started
+### Check external system is started (for ./typescript only)
 You should be able to call (POST) the following endpoint and get a 200 response
 ```
   http://localhost:5000/students?class=2&offset=1&limit=2
+```
+
+<br>
+
+### Check local react application is started (for ./react-typescript only)
+You should be able to load a simple web application page with navigations
+
+```
+http://localhost:2999/
 ```
 
 <br>
