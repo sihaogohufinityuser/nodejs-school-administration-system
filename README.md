@@ -30,8 +30,8 @@ Please read through NodeJS_Assessment_v2.docx carefully before you attempt.
 |-----|-------------|--------------|
 | 1 | database | 3306 |
 | 2 | external | 5000 |
-| 3 | backend API applicaiton | 3000 |
-| 3 | react applicaiton | 2999 |
+| 3 | backend API application | 3000 |
+| 3 | react application | 2999 |
 
 <br>
 
