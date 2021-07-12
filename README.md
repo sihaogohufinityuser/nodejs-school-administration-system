@@ -46,7 +46,7 @@ npm install
 
 <br>
 
-### Starting Project (for ./typescript & ./react-typescript)
+### Starting Project (for ./typescript)
 Starting the project in local environment.
 This will start all the dependencies services i.e. database and external (folder).
 Ensure Docker Desktop (or equivalent) is running before running command.
@@ -57,10 +57,18 @@ npm start
 <br>
 
 ### Running in watch mode (for ./typescript only)
-This will start the application in watch mode.
+This will start the nodejs application in watch mode.
 Ensure Docker Desktop (or equivalent) is running before running command.
 ```bash
 npm run start:dev
+```
+
+<br>
+
+### Running in watch mode (for ./react-typescript only)
+This will start the react application in watch mode.
+```bash
+npm start
 ```
 
 <br>
