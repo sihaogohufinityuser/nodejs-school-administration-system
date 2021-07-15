@@ -12,9 +12,9 @@ export default {
     screens: {
       Root: {
         screens: {
-          TabOne: {
+          MyClass: {
             screens: {
-              TabOneScreen: 'one',
+              MyClassScreen: 'one',
             },
           },
           TabTwo: {
