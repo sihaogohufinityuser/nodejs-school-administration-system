@@ -1,13 +1,20 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import { Text, TextInput, View } from '../components/Themed';
 
 export default function MyClassScreen() {
+  const [text, setText] = useState('');
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Retrieve My Class</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter class code"
+        onChangeText={(text) => setText(text)}
+      />
       <View
         style={styles.separator}
         lightColor="#eee"
@@ -38,5 +45,10 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: '80%',
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
   },
 });
